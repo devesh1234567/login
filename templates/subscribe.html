@@ -1,0 +1,47 @@
+{% extends 'layout/base.html' %}
+{% block container %}
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body box1">
+                        <input type="email" name="email" id="email" placeholder="email">
+                    </div>
+                    <div class="card-footer box2">
+                        <button class="btn btn-success" onclick="processForm()">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        function processForm() {
+            var email = $('#email').val();
+            var b1 = $('#box1');
+            var b2 = $('#box2')
+
+            $.ajax({
+                url: '/process/subscribe',
+                dataType: 'json',
+                method: 'GET',
+                data: {'email': email},
+                success: function (data) {
+                    if (data.subscribed) {
+                        b1.fadeOut(function () {
+                            b2.slideDown('fast');
+                        });
+                    }
+
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+
+        }
+    </script>
+{% endblock js %}
